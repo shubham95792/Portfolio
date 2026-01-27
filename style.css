@@ -298,3 +298,161 @@ body {
   z-index: -1;
   background: #121200;
 }
+
+
+
+
+
+/* =====================================================
+   CERTIFICATES — CENTER BASED LEFT / RIGHT DESIGN
+===================================================== */
+
+.timeline-section {
+  padding: 170px 0;
+}
+
+/* Heading */
+
+.certificates-heading {
+  font-size: clamp(56px, 7vw, 110px);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  margin-bottom: 130px;
+  text-align: center;
+  color: var(--brandColor);
+}
+
+/* Timeline Container */
+
+.timeline {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Vertical Stack */
+
+.timeline-items {
+  display: flex;
+  flex-direction: column;
+  gap: 160px;
+}
+
+/* Row */
+
+.timeline-item {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Clickable Wrapper */
+
+.certificate-link {
+  display: inline-flex;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Card Style */
+
+.timeline-content {
+  width: 460px;
+  padding: 36px 34px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(6px);
+  transition: all 0.4s ease;
+}
+
+/* LEFT POSITION (FROM CENTER) */
+
+.timeline-item.left .timeline-content {
+  transform: translateX(-300px);
+}
+
+/* RIGHT POSITION (FROM CENTER) */
+
+.timeline-item.right .timeline-content {
+  transform: translateX(300px);
+}
+
+/* Title */
+
+.timeline-content h3 {
+  font-size: clamp(22px, 1.8vw, 30px);
+  margin-bottom: 12px;
+}
+
+/* Description */
+
+.timeline-content p {
+  font-size: clamp(16px, 1.2vw, 18px);
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+/* Badge */
+
+.timeline-content span {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  color: var(--brandColor);
+  border: 1px solid rgba(187, 187, 79, 0.4);
+}
+
+/* =========================
+   HOVER EFFECT
+========================= */
+
+.timeline-item.left .timeline-content:hover {
+  transform: translateX(-300px) translateY(-10px) scale(1.05);
+  border-color: var(--brandColor);
+  box-shadow: 0 0 30px rgba(187, 187, 79, 0.35);
+}
+
+.timeline-item.right .timeline-content:hover {
+  transform: translateX(300px) translateY(-10px) scale(1.05);
+  border-color: var(--brandColor);
+  box-shadow: 0 0 30px rgba(187, 187, 79, 0.35);
+}
+
+/* =========================
+   ACTIVE STATE (FOR JS)
+========================= */
+
+.timeline-item.left .timeline-content.active {
+  transform: translateX(-300px) scale(1.08);
+  border-color: var(--brandColor);
+  box-shadow: 0 0 40px rgba(187, 187, 79, 0.55);
+}
+
+.timeline-item.right .timeline-content.active {
+  transform: translateX(300px) scale(1.08);
+  border-color: var(--brandColor);
+  box-shadow: 0 0 40px rgba(187, 187, 79, 0.55);
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+  .timeline-item {
+    justify-content: center;
+  }
+
+  .timeline-content {
+    width: 92%;
+    transform: translateX(0) !important;
+  }
+
+}
+
+
+
