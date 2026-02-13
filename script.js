@@ -1,8 +1,82 @@
+/* NAVBAR FUNCTIONALITY */
+document.addEventListener("DOMContentLoaded", () => {
+  const navbar = document.querySelector(".navbar");
+  const hamburger = document.querySelector(".hamburger");
+  const navMenu = document.querySelector(".nav-menu");
+  const navLinks = document.querySelectorAll(".nav-link");
+
+  // Scroll effect on navbar
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 50) {
+      navbar.classList.add("scrolled");
+    } else {
+      navbar.classList.remove("scrolled");
+    }
+  });
+
+  // Toggle mobile menu
+  hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    navMenu.classList.toggle("active");
+  });
+
+  // Close menu when link is clicked
+  navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+      hamburger.classList.remove("active");
+      navMenu.classList.remove("active");
+    });
+  });
+
+  // Update active link on scroll with smooth tracking
+  const updateActiveLink = () => {
+    const sections = document.querySelectorAll("section[id], footer");
+    
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 100;
+      const sectionHeight = section.clientHeight;
+      
+      if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+        navLinks.forEach(link => {
+          link.classList.remove("active");
+          const href = link.getAttribute("href");
+          if (href && href === `#${section.id}`) {
+            link.classList.add("active");
+          }
+        });
+      }
+    });
+  };
+
+  window.addEventListener("scroll", updateActiveLink);
+  updateActiveLink();
+
+  // Smooth scroll behavior
+  navLinks.forEach(link => {
+    link.addEventListener("click", (e) => {
+      const href = link.getAttribute("href");
+      if (href && href.startsWith("#")) {
+        e.preventDefault();
+        const targetId = href.substring(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+          const offsetTop = targetElement.offsetTop - 70;
+          window.scrollTo({
+            top: offsetTop,
+            behavior: "smooth"
+          });
+        }
+      }
+    });
+  });
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   gsap.registerPlugin(ScrollTrigger);
 
   const heroTl = gsap.timeline({
-    defaults: { ease: "expo.out" }
+    defaults: { ease: "cubic.out" }
   });
 
   heroTl
@@ -10,21 +84,34 @@ document.addEventListener("DOMContentLoaded", () => {
       y: 0,
       opacity: 1,
       filter: "blur(0px)",
-      duration: 2,
-      stagger: 0.2,
+      rotateX: 0,
+      duration: 1.8,
+      stagger: 0.15,
+      ease: "cubic.out"
     })
-    .to(".hero-content .reveal-text, .hero-subtext", {
+    .to(".hero-content .reveal-text", {
       y: 0,
       opacity: 1,
       filter: "blur(0px)",
-      duration: 1.5,
-      stagger: 0.1,
-    }, "-=1.4")
+      rotateX: 0,
+      duration: 1.4,
+      stagger: 0.12,
+      ease: "cubic.out"
+    }, "-=1.2")
+    .to(".hero-subtext", {
+      y: 0,
+      opacity: 1,
+      filter: "blur(0px)",
+      rotateX: 0,
+      duration: 1,
+      ease: "cubic.out"
+    }, "-=0.8")
     .to(".scroll-down-wrap", {
       opacity: 1,
       y: 0,
-      duration: 1,
-    }, "-=0.8");
+      duration: 1.2,
+      ease: "cubic.out"
+    }, "-=0.6");
 
   const typewriterElement = document.getElementById('typewriter');
   if (typewriterElement) {
@@ -48,11 +135,37 @@ const initAboutAnimations = () => {
     y: 0,
     opacity: 1,
     filter: "blur(0px)",
-    duration: 1.2,
-    ease: "expo.out",
+    rotateX: 0,
+    duration: 1.4,
+    ease: "cubic.out",
     scrollTrigger: {
       trigger: ".about-header",
-      start: "top 90%", 
+      start: "top 85%", 
+      toggleActions: "play reverse play reverse", 
+    }
+  });
+
+  // Add glow animation to the Vision span on scroll
+  gsap.to(".about-header .heading span::before", {
+    opacity: 1,
+    duration: 0.8,
+    delay: 0.6,
+    ease: "cubic.out",
+    scrollTrigger: {
+      trigger: ".about-header",
+      start: "top 85%", 
+      toggleActions: "play reverse play reverse", 
+    }
+  });
+
+  gsap.to(".about-header .heading span::after", {
+    opacity: 0.6,
+    duration: 0.8,
+    delay: 0.7,
+    ease: "cubic.out",
+    scrollTrigger: {
+      trigger: ".about-header",
+      start: "top 85%", 
       toggleActions: "play reverse play reverse", 
     }
   });
@@ -61,12 +174,13 @@ const initAboutAnimations = () => {
     y: 0,
     opacity: 1,
     filter: "blur(0px)",
-    duration: 1,
-    stagger: 0.15,
-    ease: "power3.out",
+    rotateX: 0,
+    duration: 1.2,
+    stagger: 0.12,
+    ease: "cubic.out",
     scrollTrigger: {
       trigger: ".text-col",
-      start: "top 85%",
+      start: "top 80%",
       toggleActions: "play reverse play reverse",
     }
   });
@@ -75,12 +189,12 @@ const initAboutAnimations = () => {
     y: 0,
     opacity: 1,
     filter: "blur(0px)",
-    duration: 1.5,
-    stagger: 0.3,
-    ease: "power2.out",
+    duration: 1.2,
+    stagger: 0.15,
+    ease: "power3.out",
     scrollTrigger: {
       trigger: ".expertise-grid",
-      start: "top 80%",
+      start: "top 75%",
       toggleActions: "play reverse play reverse",
     }
   });
@@ -289,38 +403,89 @@ const initFooterAnimations = () => {
 
 window.addEventListener("load", () => {
   initFooterAnimations();
-});
-
-particlesJS("particles-js", {
-  "particles": {
-    "number": {
-      "value": 120,
-      "density": { "enable": true, "value_area": 800 }
-    },
-    "color": {
-      "value": "#900f0f"
-    },
-    "shape": { "type": "circle" },
-    "opacity": {
-      "value": 0.7,
-      "random": false
-    },
-    "line_linked": {
-      "enable": true,
-      "distance": 150,
-      "color": "#900f0f",
-      "opacity": 0.4, 
-      "width": 1
-    },
-    "move": {
-      "enable": true,
-      "speed": 2
-    }
-  },
-  "interactivity": {
-    "events": {
-      "onhover": { "enable": true, "mode": "grab" }
-    }
+  
+  // Initialize particles.js after everything is loaded
+  if (typeof particlesJS !== 'undefined') {
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 60,
+          "density": { "enable": true, "value_area": 800 }
+        },
+        "color": {
+          "value": "#FFEB99"
+        },
+        "shape": { "type": "circle" },
+        "opacity": {
+          "value": 0.5,
+          "random": false
+        },
+        "size": {
+          "value": 2,
+          "random": true
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#FFEB99",
+          "opacity": 0.3, 
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 2
+        }
+      },
+      "interactivity": {
+        "events": {
+          "onhover": { "enable": true, "mode": "grab" }
+        }
+      }
+    });
   }
 });
 
+// Fallback: Also try to initialize particles on DOM ready
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => {
+    if (typeof particlesJS !== 'undefined' && !window.particlesInitialized) {
+      particlesJS("particles-js", {
+        "particles": {
+          "number": {
+            "value": 60,
+            "density": { "enable": true, "value_area": 800 }
+          },
+          "color": {
+            "value": "#FFEB99"
+          },
+          "shape": { "type": "circle" },
+          "opacity": {
+            "value": 0.5,
+            "random": false
+          },
+          "size": {
+            "value": 2,
+            "random": true
+          },
+          "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#FFEB99",
+            "opacity": 0.3, 
+            "width": 1
+          },
+          "move": {
+            "enable": true,
+            "speed": 2
+          }
+        },
+        "interactivity": {
+          "events": {
+            "onhover": { "enable": true, "mode": "grab" }
+          }
+        }
+      });
+      window.particlesInitialized = true;
+    }
+  }, 100);
+});
